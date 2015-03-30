@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  video_class_id: 1
+  cat_name: MyString
+  session_id: MyString
+  session_url: MyText
+  active: false
+
+two:
+  video_class_id: 1
+  cat_name: MyString
+  session_id: MyString
+  session_url: MyText
+  active: false

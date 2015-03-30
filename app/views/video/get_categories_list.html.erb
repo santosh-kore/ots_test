@@ -1,0 +1,129 @@
+<script>
+    $(document).ready(function() {
+        
+        $("#update-categories").click(function() {
+            var catIdsToChangeStatus = [], catIdsToRemove = [];
+            var statusChkbxs = $(".change-cat-status");
+            var removeBoxes = $(".remove-cat");
+            for(var i=0; i<statusChkbxs.length; i++) {
+                catIdsToChangeStatus.push({cat_id: $(statusChkbxs[i]).data("category"), active: statusChkbxs[i].checked })
+            }
+            for(var i=0; i<removeBoxes.length; i++) {
+                if(removeBoxes[i].checked)
+                    catIdsToRemove.push({cat_id: $(removeBoxes[i]).data("category")})
+            }
+
+            $.ajax({
+                url: '/update_categories',
+                type : "PUT",
+                data: {
+                  cat_data_to_change_status: catIdsToChangeStatus,
+                  cat_to_remove: catIdsToRemove
+                },
+                success: function(data) {
+                    window.location = "/video/get_categories_list";
+                }, 
+                error: function(data) {
+                    alert(data.message);
+                }
+            });
+        });
+    });
+</script>
+<div class="wrapper">
+    <!-- render header partial -->   
+    <%= render partial: "shared/header" %>
+    <!-- render left navigation partial -->
+    <%= render partial: "shared/left_navigation" %>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+
+        <section class="content-header">
+            <h1>
+    Admin Control Panel
+    <small></small>
+    </h1>
+        </section>
+
+        <section class="content">
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Create Catagory</h3>
+                        </div>
+
+                        <form class="form-horizontal" role="form" action="/create_category" method="post">
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Write here" name="category_name">
+                                <span class="input-group-btn">
+                                  <input type="submit" class="btn btn-default" type="button" value="Add catagory">
+                                </span>
+                            </div>
+                        </form>
+
+                    </div>
+                    <!--box/-->
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Catagories</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>S.N.</th>
+                                        <th>Catagory</th>
+                                        <th>Active</th>
+                                        <th>Remove</th>
+                                    </tr>
+                                    <% @categories.each_with_index do |obj, index| %>
+                                        <tr>
+                                            <td><%= index+1 %></td>
+                                            <td><%= obj.cat_name %></td>
+                                            <td>
+                                                <label for="check<%= obj.id %>first">
+                                                    <% if obj.active == true %>
+                                                        <input class="change-cat-status" id="check<%= obj.id %>first" value="<%= obj.id %>" type="checkbox" data-category="<%= obj.id %>" checked="true" data-isactive="true">
+                                                    <% else %>
+                                                        <input class="change-cat-status" id="check<%= obj.id %>first" value="<%= obj.id %>" type="checkbox" data-category="<%= obj.id %>" data-isactive="false">
+                                                    <% end %>
+                                                     Active
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <label for="check<%= obj.id %>second">
+                                                    <input class="remove-cat" id="check<%= obj.id %>second" value="<%= obj.id %>" type="checkbox" data-category="<%= obj.id %>" data-remove="false"> Remove
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    <% end %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer clearfix">
+                            <button id="update-categories" class="btn btn-default btn-lg" type="button" aria-expanded="false" style="width:100%;">Update</button>
+                        </div>
+                    </div>
+                    <!-- /.box -->
+
+
+                </div>
+            </div>
+
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+    </footer>
+</div>
+<!-- ./wrapper -->
