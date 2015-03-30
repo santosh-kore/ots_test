@@ -1,3 +1,5 @@
+# Skipping to deploy on heroku
+=begin
 class CategoriesAlterSessionUrlType < ActiveRecord::Migration
   def change
   	execute <<-SQL
@@ -6,3 +8,5 @@ class CategoriesAlterSessionUrlType < ActiveRecord::Migration
     SQL
   end
 end
+=end
+
