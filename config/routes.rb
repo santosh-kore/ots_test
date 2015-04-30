@@ -5,8 +5,8 @@ OtsApp::Application.routes.draw do
   get 'video/get_categories_list'
   match '/create_category' => 'video#create_category', :via => :post
   match '/update_categories' => 'video#update_categories', :via => :put
-  #get 'video/video_call'
-  get 'video_call/:session_id', to: 'video#video_call'
+  get 'video/video_call'
+  #get 'video_call/:session_id', to: 'video#video_call'
   get 'admin/create_student'
   match '/post_student_data' => 'admin#post_student_data', :via => :post
   get 'admin/create_faculty'
